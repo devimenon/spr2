@@ -1,10 +1,13 @@
 package com.devi.springboot.service;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import com.devi.springboot.model.User;
@@ -12,17 +15,19 @@ import com.devi.springboot.model.User;
 
 
 @Service("userService")
+@Repository
 public class UserServiceImpl implements UserService{
 	
 	private static final AtomicLong counter = new AtomicLong();
 	
-	private static List<User> users;
+	@PersistenceContext
+	private EntityManager entityManager;
 	
-	static{
-		users= populateDummyUsers();
-	}
+	private List<User> users;
 
 	public List<User> findAllUsers() {
+		
+		users= populateDummyUsers();
 		return users;
 	}
 	
@@ -72,13 +77,15 @@ public class UserServiceImpl implements UserService{
 		users.clear();
 	}
 
-	private static List<User> populateDummyUsers(){
-		List<User> users = new ArrayList<User>();
+	private List<User> populateDummyUsers(){
+		/*List<User> users = new ArrayList<User>();
 		users.add(new User(counter.incrementAndGet(),"Sam",30, 70000));
 		users.add(new User(counter.incrementAndGet(),"Tom",40, 50000));
 		users.add(new User(counter.incrementAndGet(),"Jerome",45, 30000));
 		users.add(new User(counter.incrementAndGet(),"Silvia",50, 40000));
-		return users;
+		return users;*/
+		return this.entityManager.createQuery("SELECT n FROM User n", User.class)
+				.getResultList();
 	}
 
 }

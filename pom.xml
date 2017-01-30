@@ -4,7 +4,7 @@
 
 	<groupId>com.devi.springboot</groupId>
 	<artifactId>spr2</artifactId>
-	<version>1.1.0</version>
+	<version>1.1.1</version>
 	<packaging>war</packaging>
 
 	<name>spr2</name>
@@ -31,6 +31,32 @@
 		<dependency>
     		<groupId>com.fasterxml.jackson.dataformat</groupId>
     		<artifactId>jackson-dataformat-xml</artifactId>
+		</dependency>
+		
+		<!-- Add freemarker template support -->		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-freemarker</artifactId>
+		</dependency>
+		<!-- Add JPA support -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<!-- Add Hikari Connection Pooling support -->
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+		</dependency>
+		<!-- Add MySQL database support [for running with PRODUCTION profile] -->		
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		<dependency>
+    		<groupId>org.apache.commons</groupId>
+    		<artifactId>commons-lang3</artifactId>
+    		<version>3.5</version>
 		</dependency>
 	</dependencies>
 	<build>

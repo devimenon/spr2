@@ -6,6 +6,7 @@ import javax.naming.NamingException;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
@@ -15,6 +16,7 @@ import org.springframework.boot.env.YamlPropertySourceLoader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -31,6 +33,7 @@ import com.zaxxer.hikari.HikariDataSource;
 		entityManagerFactoryRef = "entityManagerFactory",
 		transactionManagerRef = "transactionManager")
 @EnableTransactionManagement
+@PropertySource("classpath:application.properties")
 public class JpaConfiguration {
 
 	@Autowired
@@ -63,10 +66,14 @@ public class JpaConfiguration {
 		DataSourceProperties dataSourceProperties = dataSourceProperties();
 			HikariDataSource dataSource = (HikariDataSource) DataSourceBuilder
 					.create(dataSourceProperties.getClassLoader())
-					.driverClassName("com.mysql.jdbc.Driver")
+					/*.driverClassName("com.mysql.jdbc.Driver")
 					.url("jdbc:mysql://localhost:3306/spr2db")
 					.username("root")
-					.password("rootpass")
+					.password("rootpass")*/
+					.driverClassName(dataSourceProperties.getDriverClassName())
+					.url(dataSourceProperties.getUrl())
+					.username(dataSourceProperties.getUsername())
+					.password(dataSourceProperties.getPassword())
 					.type(HikariDataSource.class)
 					.build();
 			dataSource.setMaximumPoolSize(maxPoolSize);
@@ -102,13 +109,13 @@ public class JpaConfiguration {
 	private Properties jpaProperties() {
 		
 		Properties properties = new Properties();
-		properties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");//environment.getRequiredProperty("datasource.sampleapp.hibernate.dialect"));
-		properties.put("hibernate.hbm2ddl.auto", "create-drop");//environment.getRequiredProperty("datasource.sampleapp.hibernate.hbm2ddl.method"));
-		properties.put("hibernate.show_sql", "true");//environment.getRequiredProperty("datasource.sampleapp.hibernate.show_sql"));
-		properties.put("hibernate.format_sql", "true");//environment.getRequiredProperty("datasource.sampleapp.hibernate.format_sql"));
-		/*if(StringUtils.isNotEmpty(environment.getRequiredProperty("datasource.sampleapp.defaultSchema"))){
+		properties.put("hibernate.dialect", environment.getRequiredProperty("datasource.sampleapp.hibernate.dialect"));
+		properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("datasource.sampleapp.hibernate.hbm2ddl.method"));
+		properties.put("hibernate.show_sql", environment.getRequiredProperty("datasource.sampleapp.hibernate.show_sql"));
+		properties.put("hibernate.format_sql", environment.getRequiredProperty("datasource.sampleapp.hibernate.format_sql"));
+		if(StringUtils.isNotEmpty(environment.getRequiredProperty("datasource.sampleapp.defaultSchema"))){
 			properties.put("hibernate.default_schema", environment.getRequiredProperty("datasource.sampleapp.defaultSchema"));
-		}*/
+		}
 		return properties;
 	}
 

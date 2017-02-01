@@ -1,25 +1,3 @@
 server:
   port: 8080
   contextPath: /spr2
-spring:
-  profiles:
-    active: default
-    include: default
----
-spring:
-  profiles: default
-     
-datasource:
-  sampleapp:
-    url: jdbc:mysql://localhost:3306/spr2db
-    username: root
-    password: rootpass
-    driverClassName: com.mysql.jdbc.Driver
-    defaultSchema:
-    maxPoolSize: 20
-    hibernate:
-      dialect: org.hibernate.dialect.MySQLDialect
-      hbm2ddl.method: create-drop
-      show_sql: true
-      format_sql: true
-

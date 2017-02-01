@@ -1,91 +1,68 @@
 package com.devi.springboot.service;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
-import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.devi.springboot.model.User;
-
-
+import com.devi.springboot.repository.UserRepository;
 
 @Service("userService")
-@Repository
+@Transactional
 public class UserServiceImpl implements UserService{
 	
-	private static final AtomicLong counter = new AtomicLong();
+	@Autowired
+	private UserRepository userRepository;
 	
-	@PersistenceContext
-	private EntityManager entityManager;
 	
-	private List<User> users;
-
 	public List<User> findAllUsers() {
 		
-		users= populateDummyUsers();
-		return users;
+		return userRepository.findAll();
 	}
 	
-	public User findById(long id) {
-		for(User user : users){
-			if(user.getId() == id){
-				return user;
-			}
-		}
-		return null;
+	public User findById(Long id) {
+		return userRepository.findOne(id);
 	}
-	
-	public User findByName(String name) {
-		for(User user : users){
-			if(user.getName().equalsIgnoreCase(name)){
-				return user;
-			}
-		}
-		return null;
-	}
-	
+
+
 	public void saveUser(User user) {
-		user.setId(counter.incrementAndGet());
-		users.add(user);
+		userRepository.save(user);
 	}
 
-	public void updateUser(User user) {
-		int index = users.indexOf(user);
-		users.set(index, user);
+	public void updateUser(User user){
+		saveUser(user);
 	}
 
-	public void deleteUserById(long id) {
-		
-		for (Iterator<User> iterator = users.iterator(); iterator.hasNext(); ) {
-		    User user = iterator.next();
-		    if (user.getId() == id) {
-		        iterator.remove();
-		    }
-		}
+	public void deleteUserById(Long id){
+		userRepository.delete(id);
 	}
 
-	public boolean isUserExist(User user) {
-		return findByName(user.getName())!=null;
-	}
-	
 	public void deleteAllUsers(){
-		users.clear();
+		userRepository.deleteAll();
 	}
 
-	private List<User> populateDummyUsers(){
-		/*List<User> users = new ArrayList<User>();
-		users.add(new User(counter.incrementAndGet(),"Sam",30, 70000));
-		users.add(new User(counter.incrementAndGet(),"Tom",40, 50000));
-		users.add(new User(counter.incrementAndGet(),"Jerome",45, 30000));
-		users.add(new User(counter.incrementAndGet(),"Silvia",50, 40000));
-		return users;*/
-		return this.entityManager.createQuery("SELECT n FROM User n", User.class)
-				.getResultList();
+	@Override
+	public User findById(long id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
+	@Override
+	public User findByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteUserById(long id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isUserExist(User user) {
+		return findByName(user.getName()) != null;
+	}
 }

@@ -1,9 +1,14 @@
 server:
   port: 8080
   contextPath: /spr2
+spring:
+  profiles:
+    active: default
+    include: default
 ---
 spring:
-  profiles: local, default
+  profiles: default
+     
 datasource:
   sampleapp:
     url: jdbc:mysql://localhost:3306/spr2db
@@ -13,7 +18,8 @@ datasource:
     defaultSchema:
     maxPoolSize: 20
     hibernate:
+      dialect: org.hibernate.dialect.MySQLDialect
       hbm2ddl.method: create-drop
       show_sql: true
       format_sql: true
-      dialect: org.hibernate.dialect.MySQLDialect
+

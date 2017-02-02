@@ -10,6 +10,8 @@ from link
 http://websystique.com/spring-boot/spring-boot-angularjs-spring-data-jpa-crud-app-example/
 altered the above project to get the users data from db
 
+CRUD operation on User, with hql
+
 To Do:
 Detailed Hibernate mappings
 branch out to include angular js

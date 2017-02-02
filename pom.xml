@@ -4,7 +4,7 @@
 
 	<groupId>com.devi.springboot</groupId>
 	<artifactId>spr2</artifactId>
-	<version>1.1.1</version>
+	<version>1.1.2</version>
 	<packaging>war</packaging>
 
 	<name>spr2</name>

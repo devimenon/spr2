@@ -22,11 +22,6 @@ public class UserServiceImpl implements UserService{
 		return userRepository.findAll();
 	}
 	
-	public User findById(Long id) {
-		return userRepository.findOne(id);
-	}
-
-
 	public void saveUser(User user) {
 		userRepository.save(user);
 	}
@@ -46,18 +41,17 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public User findById(long id) {
 		// TODO Auto-generated method stub
-		return null;
+		return userRepository.findOne(id);
 	}
 
 	@Override
 	public User findByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return userRepository.findByName(name);
 	}
 
 	@Override
 	public void deleteUserById(long id) {
-		// TODO Auto-generated method stub
+		userRepository.delete(id);
 		
 	}
 

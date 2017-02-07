@@ -14,4 +14,5 @@ CRUD operation on User, with hql
 
 To Do:
 Detailed Hibernate mappings
-branch out to include angular js
+
+Added angular JS ui to the project
